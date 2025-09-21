@@ -1,12 +1,11 @@
 
 import { useContext, useState, } from 'react'
 import { Input, Form, Checkbox, Space, Table, } from 'antd'
-import { useInterval, useMount,  useUpdateEffect } from 'ahooks'
+import { useInterval, useMount, useUpdateEffect } from 'ahooks'
 import { SearchOutlined, } from '@ant-design/icons'
 import { ConfigContext } from '@/rootContext'
 import { genWalletList } from '@/util'
-import Open from './components/Open'
-import Close from './components/Close'
+import Tools from './components/Tools'
 import columns from './columns';
 import Config from './components/config/Index'
 import Sync from './components/Sync'
@@ -49,7 +48,7 @@ export default function Chrome() {
     // 每3秒检查一次进程是否存在
     useInterval(async () => {
         checkProcess()
-    }, 2500)
+    }, 2000)
 
     useUpdateEffect(() => {
         if (open) {
@@ -110,8 +109,8 @@ export default function Chrome() {
     }
 
     const openChrome = async (name: string) => {
-        console.log('name',[name]);
-        
+        console.log('name', [name]);
+
         await window.py.app.open_chrome([name])
         window.message.success('chrome,打开成功')
     }
@@ -162,15 +161,12 @@ export default function Chrome() {
                 </Form>
             </div>
             <div className='tools'>
-                <div>
-                    <Space>
-                        <Sync selectedRows={selectedRows} />
-                        <Open
-                            selectedRows={selectedRows}
-                            onOk={clearSelected}
-                        />
-                        <Close onOk={clearSelected} />
-                    </Space>
+                <div style={{display: 'flex', gap: 10}}>
+                    <Sync selectedRows={selectedRows} />
+                    <Tools
+                        selectedRows={selectedRows}
+                        onOk={clearSelected}
+                    />
                 </div>
                 <div>
                     <Config />
