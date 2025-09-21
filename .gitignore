@@ -1,4 +1,7 @@
-# Created by venv; see https://docs.python.org/3/library/venv.html
-
 venv
 node_modules
+venv
+node_modules
+dist
+build
+__pycache__
