@@ -1,19 +1,25 @@
 
 
 import { Button, Space } from 'antd'
-import { CloseOutlined } from '@ant-design/icons'
 import ChromeIcon from '@/assets/chrome.svg?react'
 import TelegramIcon from '@/assets/telegram.svg?react'
+import CloseIcon from '@/assets/close.svg?react'
 
 
 type Props = {
     selectedRows: any[]
-    onOk: () => void
+    onOk: () => void,
+    process: {
+        chrome: any[],
+        telegram: any[],
+    }
 }
 
 export default function Tools(props: Props) {
-    const { selectedRows, onOk } = props
+    const { selectedRows, onOk, process } = props;
 
+    const hasChromeOpen = process.chrome.length > 0;
+    const hasTelegramOpen = process.telegram.length > 0;
     const onOpenChrome = async () => {
         const names = selectedRows.map(it => it.name)
         await window.py.app.open_chrome(names)
@@ -50,7 +56,8 @@ export default function Tools(props: Props) {
                 <Button
                     size='large'
                     onClick={onCloseChrome}
-                    icon={<CloseOutlined />}
+                    disabled={!hasChromeOpen}
+                    icon={<CloseIcon width={20} style={{color: hasChromeOpen ? 'red': '#aaa'}}/>}
                 />
             </Space.Compact>
             <Space.Compact>
@@ -61,8 +68,9 @@ export default function Tools(props: Props) {
                     icon={<TelegramIcon width={20} />} />
                 <Button
                     size='large'
+                    disabled={!hasTelegramOpen}
                     onClick={onCloseTelegram}
-                    icon={<CloseOutlined />} />
+                    icon={<CloseIcon width={20}  style={{color: hasTelegramOpen ? 'red': '#aaa'}} />} />
             </Space.Compact>
 
         </>

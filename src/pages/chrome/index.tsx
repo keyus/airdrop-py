@@ -21,6 +21,10 @@ export default function Chrome() {
     const [data, setData] = useState([])
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [process, setProcess] = useState({
+        chrome: [],
+        telegram: [],
+    })
 
     const [pagination, setPagination] = useState({
         current: 1,
@@ -96,6 +100,10 @@ export default function Chrome() {
                 item.openTg = false
             }
         })
+        setProcess({
+            chrome,
+            telegram,
+        });
         setData([...data])
     }
 
@@ -162,10 +170,11 @@ export default function Chrome() {
             </div>
             <div className='tools'>
                 <div style={{display: 'flex', gap: 10}}>
-                    <Sync selectedRows={selectedRows} />
+                    <Sync process={process} />
                     <Tools
                         selectedRows={selectedRows}
                         onOk={clearSelected}
+                        process={process}
                     />
                 </div>
                 <div>

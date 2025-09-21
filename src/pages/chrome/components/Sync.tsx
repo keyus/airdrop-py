@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
-import { Button, Modal } from 'antd';
+import React from 'react';
+import { Button, } from 'antd';
 import { SyncOutlined } from '@ant-design/icons';
-import AutoSync from './AutoSync';
 
 interface Props {
-  selectedRows: any[];
+  process: {
+    chrome: any[],
+    telegram: any[]
+  }
 }
 
-const Sync: React.FC<Props> = ({ selectedRows }) => {
-  const [autoSyncVisible, setAutoSyncVisible] = useState(false);
-
+const Sync: React.FC<Props> = ({ process }) => {
+  const { chrome } = process;
+  const noMoreChromeOpen = chrome.length < 2;
   const handleSyncClick = () => {
-    if (selectedRows.length === 0) {
-      window.message.warning('请先选择Chrome实例');
-      return;
-    }
-    setAutoSyncVisible(true);
+    window.message.success('还在更新中....')
   };
 
   return (
@@ -23,21 +21,11 @@ const Sync: React.FC<Props> = ({ selectedRows }) => {
       <Button
         size="large"
         icon={<SyncOutlined />}
+        disabled={noMoreChromeOpen}
         onClick={handleSyncClick}
       >
         同步
       </Button>
-
-      <Modal
-        title="Chrome自动同步"
-        open={autoSyncVisible}
-        onCancel={() => setAutoSyncVisible(false)}
-        footer={null}
-        width={700}
-        destroyOnClose
-      >
-        <AutoSync selectedRows={selectedRows} />
-      </Modal>
     </>
   );
 };
