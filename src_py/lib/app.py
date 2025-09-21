@@ -3,8 +3,8 @@ import psutil
 import shutil
 import sys
 import os
-from lib.path import user_data_path
-from lib.config import Config
+from .path import user_data_path
+from .config import Config
 
 config_handle = Config()
 chrome_process = []
@@ -51,6 +51,7 @@ class App:
                 proxy_list = proxy_list.get('data')
             name_index = wallet.index(name)
             proxy = proxy_list[name_index]
+            debugging_port = 9222 + name_index
             if proxy:
                 proxy = [f"--proxy-server=socks5://{proxy}"]
             if not use_url:
@@ -61,6 +62,8 @@ class App:
                 [
                     chrome_path, 
                     f"--user-data-dir={os.path.join(chrome_user_data_dir, name)}",
+                    f"--remote-debugging-port={debugging_port}",
+                    "--remote-allow-origins=*",
                     *proxy,
                     *url,
                 ]

@@ -1,5 +1,5 @@
 import requests
-from lib.path import webshare_path
+from .path import webshare_path
  
 class Webshare:
     def __init__(self):

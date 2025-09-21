@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(bun run:*)",
-      "Bash(pyinstaller:*)"
+      "Bash(pyinstaller:*)",
+      "Bash(./venv/Scripts/python.exe -c \"import PyChromeDevTools; print(''Success:'', PyChromeDevTools.__file__)\")"
     ],
     "deny": [],
     "ask": []

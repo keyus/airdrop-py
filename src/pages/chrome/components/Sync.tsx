@@ -13,7 +13,7 @@ const Sync: React.FC<Props> = ({ process }) => {
   const { chrome } = process;
   const noMoreChromeOpen = chrome.length < 2;
   const handleSyncClick = () => {
-    window.message.success('还在更新中....')
+    window.py.sync.start()
   };
 
   return (

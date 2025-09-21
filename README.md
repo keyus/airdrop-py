@@ -42,3 +42,7 @@ HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Google\Chrome\Extensions
 
 #### 打包windows exe软件
 > npm run build:windows
+
+
+venv环境中安装
+./venv/Scripts/pip.exe install PyChromeDevTools

@@ -1,5 +1,5 @@
 import json
-from lib.path import config_path,webshare_path
+from .path import config_path,webshare_path
 
 class Config:
     def get_config(self):
