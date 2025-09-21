@@ -1,6 +1,5 @@
-import { Dropdown,  } from 'antd'
+import { Dropdown, } from 'antd'
 import Chromeicon from '@/assets/chrome.svg?react'
-
 
 
 type Props = {
@@ -13,14 +12,14 @@ export default function Open(props: Props) {
 
     const onOpenChrome = async () => {
         const names = selectedRows.map(it => it.name)
-        await globalThis.window.pywebview.api.open_chrome(names)
+        await window.py.app.open_chrome(names)
         window.message.success('chrome,打开成功')
         onOk()
     }
 
     const onOpenTelegram = async () => {
         const names = selectedRows.map(it => it.name)
-        await globalThis.window.pywebview.api.open_tg(names)
+        await window.py.app.open_telegram(names)
         window.message.success('telegram,打开成功')
         onOk()
     }
@@ -33,7 +32,7 @@ export default function Open(props: Props) {
                 items: [
                     {
                         label: '启动 Telegram',
-                        key: '1',
+                        key: '2',
                         onClick: onOpenTelegram
                     },
                 ]

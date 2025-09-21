@@ -3,9 +3,8 @@ import { useUpdateEffect } from 'ahooks';
 import { useState } from 'react'
 import { Avatar, Input, Form, Button, Card, Row, Col, Tooltip } from 'antd'
 import { SearchOutlined, } from '@ant-design/icons'
-import './style.css';
-import { open } from '@tauri-apps/plugin-shell';
 import app from './app'
+import './style.css';
 
 const { Meta } = Card;
 
@@ -16,8 +15,7 @@ export default function ChromeApp() {
 
     const installApp = async (id: string) => {
         try {
-            const res = await window.pywebview.api.chrome_extension.install(id)
-            console.log('install res :', res)
+            await window.py.chrome_app.install(id)
             window.message.success("安装成功");
         } catch (e) {
             window.message.error(e);
@@ -26,8 +24,7 @@ export default function ChromeApp() {
 
     const uninstallApp = async (id: string) => {
         try {
-            const res = await window.pywebview.api.chrome_extension.uninstall(id)
-            console.log('uninstall res :', res)
+            await window.py.chrome_app.uninstall(id)
             window.message.success("卸载成功");
         } catch (e) {
             window.message.error(e);

@@ -1,23 +1,21 @@
-import { Space, Button, Typography, message } from 'antd'
+import { Space, Button, message } from 'antd'
 import { ReactComponent as Chromeicon } from '@/assets/chrome.svg'
 import { ReactComponent as Tgicon } from '@/assets/telegram.svg'
 import locations from './locations.json'
 import copy from 'copy-to-clipboard'
 
 interface Props {
-    openChromeOne: (name: string) => void
-    closeChromeOne: (name: string) => void
-    openTgOne: (name: string) => void
-    closeTgOne: (name: string) => void
-    runShmonad: (name: string) => void
+    openChrome: (name: string) => void
+    closeChrome: (name: string) => void
+    openTg: (name: string) => void
+    closeTg: (name: string) => void
 }
 
-const { Paragraph } = Typography
 const getLocation = (name: string) => {
     return locations.find((item) => item.name === name)
 }
 export default function columns(props: Props) {
-    const { openChromeOne, closeChromeOne, openTgOne, closeTgOne, runShmonad } = props
+    const { openChrome, openTg, closeChrome, closeTg, } = props
     return [
         {
             title: '编号/名称',
@@ -69,24 +67,7 @@ export default function columns(props: Props) {
                 return '-'
             }
         },
-        {
-            title: 'shmonad',
-            dataIndex: 'shmonad',
-            width: 160,
-            render(value: any, row: any) {
-                return (
-                    <div>
-                        {value === 1 && <span>完成</span>}
-                        {value === 2 && <span>出错</span>}
-                        <Button
-                            type='link'
-                            onClick={() => {
-                                runShmonad(row)
-                            }}>运行</Button>
-                    </div>
-                )
-            }
-        },
+
         {
             title: '操作',
             width: 180,
@@ -102,9 +83,9 @@ export default function columns(props: Props) {
                             icon={<Chromeicon width={20} height={20} />}
                             onClick={() => {
                                 if (record.openChrome) {
-                                    closeChromeOne(record.name)
+                                    closeChrome(record.name)
                                 } else {
-                                    openChromeOne(record.name)
+                                    openChrome(record.name)
                                 }
                             }}>
                             {record.openChrome ? '关闭' : '打开'}
@@ -116,9 +97,9 @@ export default function columns(props: Props) {
                             icon={<Tgicon width={20} height={20} />}
                             onClick={() => {
                                 if (record.openTg) {
-                                    closeTgOne(record.name)
+                                    closeTg(record.name)
                                 } else {
-                                    openTgOne(record.name)
+                                    openTg(record.name)
                                 }
                             }} />
                     </Space>

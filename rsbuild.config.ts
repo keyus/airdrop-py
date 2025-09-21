@@ -10,12 +10,6 @@ export default defineConfig({
     output: {
         minify: true,
         assetPrefix: './',
-        distPath: {
-            root: './distFrontend',
-            assets: 'assets',
-            css: 'css',
-            js: 'js',
-        },
     },
     server: {
         host: 'localhost',

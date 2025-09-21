@@ -1,6 +1,5 @@
 import { Dropdown, } from 'antd'
 import { PoweroffOutlined, } from '@ant-design/icons'
-
 interface Props {
     onOk: () => void
 }
@@ -8,13 +7,13 @@ interface Props {
 export default function Close(props: Props) {
     const { onOk } = props
     const onCloseChrome = async () => {
-        await window.pywebview.api.close_chrome_all()
+        await window.py.app.close_chrome_all();
         window.message.success('chrome,关闭成功')
         onOk()
     }
 
     const onCloseTelegram = async () => {
-        await window.pywebview.api.close_tg_all()
+        await window.py.app.close_telegram_all();
         window.message.success('telegram,关闭成功')
         onOk()
     }

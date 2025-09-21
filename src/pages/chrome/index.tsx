@@ -1,20 +1,22 @@
 
-import { useState, } from 'react'
+import { useContext, useState, } from 'react'
 import { Input, Form, Checkbox, Space, Table, } from 'antd'
-import { useInterval, useMount, useUpdate, useUpdateEffect } from 'ahooks'
+import { useInterval, useMount,  useUpdateEffect } from 'ahooks'
 import { SearchOutlined, } from '@ant-design/icons'
+import { ConfigContext } from '@/rootContext'
+import { genWalletList } from '@/util'
 import Open from './components/Open'
 import Close from './components/Close'
 import columns from './columns';
-import ConfigNet from './components/configNet'
-import { genWalletList } from '../../util'
+import Config from './components/config/Index'
+import Sync from './components/Sync'
 import './style.css';
 
 
 let originData = []
-export default function Chrome(props = {}) {
+export default function Chrome() {
     const [form] = Form.useForm();
-    const update = useUpdate();
+    const { config, } = useContext(ConfigContext);
     const open = Form.useWatch('open', form);
     const search = Form.useWatch('search', form);
     const [data, setData] = useState([])
@@ -28,20 +30,26 @@ export default function Chrome(props = {}) {
     const total = data.length;
 
     useMount(() => {
-        initWallet()
+        initWalllet()
     })
 
-    const initWallet = async () => {
-        const config_wallet = await window.pywebview.api.app_config.get_wallet_config();
-        const data = genWalletList(config_wallet)
-        originData = data
-        setData(data)
+    useUpdateEffect(() => {
+        initWalllet()
+    }, [config.wallet])
+
+    const initWalllet = () => {
+        if (config.wallet) {
+            const wallet = genWalletList(config.wallet)
+            originData = wallet;
+            setData(wallet)
+        }
     }
+
 
     // 每3秒检查一次进程是否存在
     useInterval(async () => {
         checkProcess()
-    }, 2000)
+    }, 2500)
 
     useUpdateEffect(() => {
         if (open) {
@@ -63,17 +71,27 @@ export default function Chrome(props = {}) {
         }
     }, [search])
 
+    const onSearch = ({ search }) => {
+        if (search) {
+            return setData(originData.filter(it => {
+                return it.name.toLowerCase().includes(search.toLowerCase())
+            }))
+        } else {
+            setData(originData)
+        }
+    }
+
     // 检查进程是否存在
     const checkProcess = async () => {
-        const res = await window.pywebview.api.get_open_all()
-        const { open_chrome_process, open_telegram_process } = res;
+        const res = await window.py.app.get_open();
+        const { chrome, telegram } = res;
         data.map((item: any) => {
-            if (open_chrome_process.find(it => it.name === item.name)) {
+            if (chrome.find(it => it.name === item.name)) {
                 item.openChrome = true
             } else {
                 item.openChrome = false
             }
-            if (open_telegram_process.find(it => it.name === item.name)) {
+            if (telegram.find(it => it.name === item.name)) {
                 item.openTg = true
             } else {
                 item.openTg = false
@@ -91,55 +109,27 @@ export default function Chrome(props = {}) {
         setSelectedRows([])
     }
 
-    const openChromeOne = async (name: string) => {
-        await window.pywebview.api.open_chrome(name)
+    const openChrome = async (name: string) => {
+        console.log('name',[name]);
+        
+        await window.py.app.open_chrome([name])
         window.message.success('chrome,打开成功')
     }
-
-    const openTgOne = async (name: string) => {
-        await window.pywebview.api.open_tg(name)
-        window.message.success('telegram,打开成功')
-    }
-
-    const closeChromeOne = async (name: string) => {
-        await window.pywebview.api.close_chrome(name)
+    const closeChrome = async (name: string) => {
+        await window.py.app.close_chrome([name])
         window.message.success('chrome,关闭成功')
     }
 
-    const closeTgOne = async (name: string) => {
-        await window.pywebview.api.close_tg(name)
+    const openTg = async (name: string) => {
+        await window.py.app.open_telegram([name])
+        window.message.success('telegram,打开成功')
+    }
+    const closeTg = async (name: string) => {
+        await window.py.app.close_telegram([name])
         window.message.success('telegram,关闭成功')
     }
-    const runShmonad = async (row: any) => {
-        const name = row.name;
-        row.shmonad = 0;
-        update();
-        // 运行shmonad
-        window.message.open({
-            key: 'shmonad',
-            type: 'loading',
-            content: `${name} shmonad 运行中!`,
-            duration: 0,
-        });
-        try {
-            await window.pywebview.api.testnet.run_shmonad(name);
-            window.message.open({
-                key: 'shmonad',
-                type: 'success',
-                content: `${name} shmonad,运行成功!`,
-                duration: 5,
-            });
-            row.shmonad = 1
-        } catch {
-            row.shmonad = 2
-        }
-        setData([...data])
-    }
-
-    const column = columns({ openChromeOne, openTgOne, closeChromeOne, closeTgOne, runShmonad });
+    const column = columns({ openChrome, openTg, closeChrome, closeTg, });
     const x = column.reduce((a, b) => { return a + b.width }, 0)
-
-
 
     return (
         <div style={{ height: '100%' }}>
@@ -147,6 +137,7 @@ export default function Chrome(props = {}) {
                 <Form
                     form={form}
                     layout='inline'
+                    onFinish={onSearch}
                     initialValues={{
                         group: '',
                     }}
@@ -173,6 +164,7 @@ export default function Chrome(props = {}) {
             <div className='tools'>
                 <div>
                     <Space>
+                        <Sync selectedRows={selectedRows} />
                         <Open
                             selectedRows={selectedRows}
                             onOk={clearSelected}
@@ -181,12 +173,12 @@ export default function Chrome(props = {}) {
                     </Space>
                 </div>
                 <div>
-                    <ConfigNet onConfigWallet={initWallet} />
+                    <Config />
                 </div>
             </div>
             <div className='list-table'>
                 <Table
-                    scroll={{ y: 600, x }}
+                    scroll={{ x }}
                     rowSelection={{
                         fixed: true,
                         selectedRowKeys,

@@ -3,11 +3,11 @@
 
 block_cipher = None
 added_files = [
-    ('.\\distFrontend', 'distFrontend'),
-    ('.\\storage','storage'),
+    ('.\\dist', 'dist'),
+    ('.\\src_py\\config','config'),
 ]
 
-a = Analysis(['.\\main.py'],
+a = Analysis(['.\\src_py\\main.py'],
              pathex=['.\\dist'],
              binaries=[],
              datas=added_files,

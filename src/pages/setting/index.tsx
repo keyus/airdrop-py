@@ -1,22 +1,21 @@
+import { useContext } from 'react';
 import { Form, Input, Button, Modal, } from 'antd'
+import { ConfigContext } from '@/rootContext'
 import './style.css'
-import { useMount } from 'ahooks';
 export default function Setting() {
     const [form] = Form.useForm();
+    const { config, updateConfig, refreshConfig } = useContext(ConfigContext);
 
-    useMount(async () => {
-        const app_config = await window.pywebview.api.app_config.get_app_config()
-        console.log(app_config);
-        
-        form.setFieldsValue(app_config)  
-    })
-
-    const onFinish = (values: any) => {
+    const onFinish = (values: AppConfig) => {
         Modal.confirm({
             title: '提示',
             content: '确定保存配置吗？',
             onOk: async () => {
-                await window.pywebview.api.app_config.set_app_config(values)
+                await updateConfig({
+                    ...config,
+                    ...values
+                })
+                refreshConfig()
                 window.message.success('保存成功')
             }
         })
@@ -29,32 +28,37 @@ export default function Setting() {
                     form={form}
                     layout='vertical'
                     onFinish={onFinish}
+                    initialValues={{
+                        chrome_install_dir: config?.chrome_install_dir,
+                        chrome_user_data_dir: config?.chrome_user_data_dir,
+                        telegram_install_dir: config?.telegram_install_dir,
+                    }}
                 >
                     <Form.Item
                         label="chrome安装软件位置"
-                        name="chrome_path"
+                        name="chrome_install_dir"
                         rules={[{ required: true, message: '请输入chrome软件位置' }]}
                         extra='生成的完整路径为，例如：C:\Program Files\Google\Chrome\Application\chrome.exe'
                     >
-                        <Input addonAfter='chrome.exe'/>
+                        <Input addonAfter='chrome.exe' />
                     </Form.Item>
                     <Form.Item
                         label="chrome多用户数据存放目录"
-                        name="user_data_dir"
+                        name="chrome_user_data_dir"
                         rules={[{ required: true, message: '请输入chrome多用户数据存放目录' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="telegram便携软件合集目录"
-                        name="telegram_path"
+                        name="telegram_install_dir"
                         rules={[{ required: true, message: '请输入telegram软件合集目录' }]}
                         extra='生成的完整路径为，例如：D:\telegram100-app\钱包名称\Telegram.exe'
                     >
-                        <Input addonAfter='Telegram.exe'/>
+                        <Input addonAfter='Telegram.exe' />
                     </Form.Item>
                     <Form.Item
-                        style={{paddingTop: 50, textAlign: 'right'}}
+                        style={{ paddingTop: 50, textAlign: 'right' }}
                     >
                         <Button type='primary' size='large' onClick={form.submit} >保存</Button>
                     </Form.Item>

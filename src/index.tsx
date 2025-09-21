@@ -1,64 +1,95 @@
+import { useState } from "react";
+import { useMount } from "ahooks";
 import { createRoot } from "react-dom/client";
-import App from "./App";
+import { ConfigContext, initConfigValue } from '@/rootContext'
 import { ConfigProvider, App as AntdApp, message } from 'antd'
-import zhCN from 'antd/locale/zh_CN';
 import { createHashRouter, RouterProvider, } from 'react-router'
+import App from "./App";
+import zhCN from 'antd/locale/zh_CN';
 import Chrome from './pages/chrome'
 import ChromeApp from './pages/chrome_app'
 import Setting from './pages/setting'
 import '@ant-design/v5-patch-for-react-19';
 
+
+
 message.config({
     maxCount: 1,
 });
-createRoot(document.getElementById("root")).render(
-    <ConfigProvider
-        locale={zhCN}
-        theme={{
-            components: {
-                Table: {
-                    headerBg: '#fff',
-                    headerColor: '#bcbec5',
-                    cellFontSize: 13,
-                    footerBg: '#fff',
-                    rowHoverBg: '#e9edfd',
-                }
-            }
-        }}
-    >
-        <AntdApp>
-            <RouterProvider
-                router={createHashRouter([
-                    {
-                        path: '/',
-                        element: <App />,
-                        children: [
+
+function Main() {
+    const [config, setConfig] = useState<AppConfig>(initConfigValue);
+    useMount(async () => {
+        window.addEventListener('pywebviewready', async () => {
+            window.py = window.pywebview.api;
+            init();
+        })
+    })
+    const updateConfig = async (newConfig: AppConfig) => {
+        await window.py.config.set_config(newConfig);
+        message.success('配置保存成功');
+    }
+    const init = async () => {
+        const config = await window.py.config.get_config();
+        setConfig(config.data)
+    }
+    return (
+        <AntdApp className="root-app">
+            <ConfigProvider
+                locale={zhCN}
+                theme={{
+                    components: {
+                        Table: {
+                            headerBg: '#fff',
+                            headerColor: '#bcbec5',
+                            cellFontSize: 13,
+                            footerBg: '#fff',
+                            rowHoverBg: '#e9edfd',
+                        }
+                    }
+                }}
+            >
+                <ConfigContext value={{
+                    config,
+                    refreshConfig: init,
+                    updateConfig,
+                }}>
+                    <RouterProvider
+                        router={createHashRouter([
                             {
-                                index: true,
-                                element: <Chrome />,
-                                handle: {
-                                    title: '环境管理'
-                                }
+                                path: '/',
+                                element: <App />,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <Chrome />,
+                                        handle: {
+                                            title: '环境管理'
+                                        }
+                                    },
+                                    {
+                                        path: 'chrome_app',
+                                        element: <ChromeApp />,
+                                        handle: {
+                                            title: '浏览器应用'
+                                        }
+                                    },
+                                    {
+                                        path: 'setting',
+                                        element: <Setting />,
+                                        handle: {
+                                            title: 'app设置'
+                                        }
+                                    }
+                                ]
                             },
-                            {
-                                path: 'chrome_app',
-                                element: <ChromeApp />,
-                                handle: {
-                                    title: '浏览器应用'
-                                }
-                            },
-                            {
-                                path: 'setting',
-                                element: <Setting />,
-                                handle: {
-                                    title: 'app设置'
-                                }
-                            }
-                        ]
-                    },
-                ])}
-            />
+                        ])}
+                    />
+                </ConfigContext>
+            </ConfigProvider>
         </AntdApp>
-    </ConfigProvider>
-);
+    )
+}
+
+createRoot(document.getElementById("root") as HTMLElement).render(<Main />);
 

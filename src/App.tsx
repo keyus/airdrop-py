@@ -1,25 +1,18 @@
-import { useState } from 'react'
+import { use } from 'react'
 import { NavLink, Outlet, useMatches } from 'react-router'
-import { useMount } from 'ahooks'
-import { Avatar, Skeleton, App as AntdApp, Button, Modal } from 'antd'
-import { GlobalOutlined, OneToOneOutlined, DesktopOutlined, CloudServerOutlined } from '@ant-design/icons'
+import { Avatar, App as AntdApp, Button, Modal, message } from 'antd'
+import { GlobalOutlined, OneToOneOutlined, CloudServerOutlined } from '@ant-design/icons'
+import { ConfigContext } from '@/rootContext'
 import LogoSvg from './assets/logo.svg?react'
 import "./App.css";
 
-
 function App() {
-  const useapp = AntdApp.useApp();
-  window.message = useapp.message;
+  const { refreshConfig } = use(ConfigContext);
+  const antdApp = AntdApp.useApp();
+  window.message = antdApp.message;
   const matches = useMatches();
   const currentRoute: any = matches.at(-1);
   const title = currentRoute?.handle?.title;
-
-  const [ready, setReady] = useState(false);
-  useMount(async () => {
-    window.addEventListener('pywebviewready', () => {
-      setReady(true)
-    })
-  })
 
   const clearCache = () => {
     Modal.confirm({
@@ -28,18 +21,17 @@ function App() {
       okText: '清除',
       cancelText: '取消',
       onOk() {
-        window.pywebview.api.clear_cache().then(() => {
-          useapp.message.success('清除缓存成功');
-        }).catch(() => {
-          useapp.message.error('清除缓存失败');
-        })
+        window.py.app.clear();
+        message.success('清除缓存成功');
+        refreshConfig();
       },
     })
 
   }
 
+
   return (
-    <AntdApp className='root-app'>
+    <>
       <aside className="side">
         <h1><LogoSvg />Airdrop</h1>
         <ul>
@@ -55,7 +47,7 @@ function App() {
         <div className='space-line' />
         <ul>
           <li>
-            <NavLink to='/sync' data-disabled><DesktopOutlined />窗口同步</NavLink>
+            {/* <NavLink to='/sync' data-disabled><DesktopOutlined />窗口同步</NavLink> */}
           </li>
           <li>
             <NavLink to='/setting'><OneToOneOutlined />app设置</NavLink>
@@ -71,10 +63,10 @@ function App() {
           </div>
         </header>
         <div className='main-body'>
-          {ready ? <Outlet /> : <Skeleton avatar paragraph={{ rows: 4 }} />}
+          <Outlet />
         </div>
       </div>
-    </AntdApp>
+    </>
   );
 }
 

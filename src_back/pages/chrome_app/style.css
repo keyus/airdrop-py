@@ -1,0 +1,10 @@
+.app-list{
+    padding-top: 16px;
+    .ant-card-meta-description{
+        -webkit-line-clamp: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+

@@ -1,4 +1,8 @@
+
+
+
 # Python + React
+
 
 use rsbuild web server
 
@@ -14,6 +18,11 @@ HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Google\Chrome\Extensions
 
 
 # 使用方法
+
+### 创建虚拟环境
+> py -m venv ./venv
+> ./venv/Scripts/activate           #激活虚拟环境
+> ./venv/Scripts/deactivate         #停止使用虚拟环境
 
 #### 安装python依赖
 
