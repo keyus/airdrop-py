@@ -45,4 +45,4 @@ HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Google\Chrome\Extensions
 
 
 venv环境中安装
-./venv/Scripts/pip.exe install PyChromeDevTools
+./venv/Scripts/pip.exe install DrissionPage

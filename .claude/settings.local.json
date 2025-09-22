@@ -3,7 +3,9 @@
     "allow": [
       "Bash(bun run:*)",
       "Bash(pyinstaller:*)",
-      "Bash(./venv/Scripts/python.exe -c \"import PyChromeDevTools; print(''Success:'', PyChromeDevTools.__file__)\")"
+      "Bash(./venv/Scripts/python.exe -c \"import PyChromeDevTools; print(''Success:'', PyChromeDevTools.__file__)\")",
+      "Bash(./venv/Scripts/pip.exe install DrissionPage)",
+      "Bash(./venv/Scripts/python.exe -c \"from src_py.lib.sync import Sync; s = Sync(); print(''Import successful'')\")"
     ],
     "deny": [],
     "ask": []
