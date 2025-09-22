@@ -72,6 +72,7 @@ class App:
                 {
                     "name": name,
                     "pid": process.pid,
+                    "debugging_port": debugging_port,
                 }
             )
         return True

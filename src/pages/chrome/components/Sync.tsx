@@ -14,13 +14,13 @@ const Sync: React.FC<Props> = ({ process }) => {
   const noMoreChromeOpen = chrome.length < 2;
   const handleSyncClick = () => {
     window.py.sync.start()
+    window.message.success('同步开启成功')
   };
 
   return (
     <>
       <Button
         size="large"
-        icon={<SyncOutlined />}
         disabled={noMoreChromeOpen}
         onClick={handleSyncClick}
       >

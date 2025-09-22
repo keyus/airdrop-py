@@ -7,7 +7,6 @@
     "dev": "rsbuild dev",
     "build:frontend": "rsbuild build",
     "dev:backend": "./venv/Scripts/python.exe ./src_py/main.py",
-    "start": "bun run dev:backend",
     "build:windows": "bun run build:frontend && pyinstaller build-windows.spec --clean --distpath release "
  },
   "dependencies": {

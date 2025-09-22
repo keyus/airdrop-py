@@ -60,38 +60,14 @@ declare global {
           update_proxy: () => Promise<any>
         }
         sync: {
-          start: () => Promise<{success: boolean, message?: string, error?: string}>
-          add_instance: (name: string, profile_name?: string, proxy?: string) => Promise<{success: boolean, message?: string, error?: string}>
-          remove_instance: (name: string) => Promise<{success: boolean, message?: string, error?: string}>
-          navigate_instance: (instance_name: string, url: string) => Promise<{success: boolean, message?: string, error?: string}>
-          navigate_all: (url: string) => Promise<{success: boolean, results?: any, error?: string}>
-          click_element: (instance_name: string, selector: string) => Promise<{success: boolean, message?: string, error?: string}>
-          input_text: (instance_name: string, selector: string, text: string) => Promise<{success: boolean, message?: string, error?: string}>
-          get_page_title: (instance_name: string) => Promise<{success: boolean, title?: string, error?: string}>
-          take_screenshot: (instance_name: string) => Promise<{success: boolean, screenshot?: string, error?: string}>
-          get_status: () => Promise<{
+          start: () => Promise<{
             success: boolean
-            data?: {
-              total_instances: number
-              running_instances: number
-              instances: Record<string, {
-                name: string
-                port: number
-                status: string
-                profile: string
-                proxy?: string
-              }>
-            }
+            message?: string
+            master?: string
+            total_instances?: number
+            sync_enabled?: boolean
             error?: string
           }>
-          execute_batch: (task_config: {
-            instances: string[]
-            actions: Array<{
-              type: string
-              params: Record<string, any>
-            }>
-          }) => Promise<{success: boolean, results?: any, error?: string}>
-          shutdown: () => Promise<{success: boolean, message?: string, error?: string}>
         }
       }
     }

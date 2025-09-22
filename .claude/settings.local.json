@@ -1,11 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(bun run:*)",
-      "Bash(pyinstaller:*)",
-      "Bash(./venv/Scripts/python.exe -c \"import PyChromeDevTools; print(''Success:'', PyChromeDevTools.__file__)\")",
-      "Bash(./venv/Scripts/pip.exe install DrissionPage)",
-      "Bash(./venv/Scripts/python.exe -c \"from src_py.lib.sync import Sync; s = Sync(); print(''Import successful'')\")"
+      "Bash(./venv/Scripts/python.exe -c \"\nfrom src_py.lib.sync import Sync\nfrom src_py.lib.app import chrome_process\n\nprint(''Chrome进程列表:'', chrome_process)\ns = Sync()\nresult = s.start()\nprint(''启动结果:'', result)\n\")"
     ],
     "deny": [],
     "ask": []
