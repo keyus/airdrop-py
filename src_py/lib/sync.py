@@ -1,18 +1,33 @@
 
 from DrissionPage import Chromium
-from typing import Dict, List, Any
+from typing import Dict, Any
+import ctypes
 import threading
 import time
-import json
-from .app import chrome_process, config_handle
+from .app import chrome_process
+
+user32 = ctypes.windll.user32
+user32.SetProcessDPIAware()
+# 获取屏幕尺寸
+screen_width = user32.GetSystemMetrics(0)  # SM_CXSCREEN
+screen_height = user32.GetSystemMetrics(1)  # SM_CYSCREEN
+# 获取主显示器的DPI
+hdc = user32.GetDC(0)
+dpi_x = ctypes.windll.gdi32.GetDeviceCaps(hdc, 88)  # LOGPIXELSX
+user32.ReleaseDC(0, hdc)
+# 标准DPI是96，计算缩放比例
+scale = dpi_x / 96.0
+min_height = screen_width/scale
+min_width = 500
 
 
 class ChromeInstanceController:
     """单个Chrome实例控制器"""
 
-    def __init__(self, name: str, port: int, ):
+    def __init__(self, name: str, port: int, window_index: int = 0):
         self.name = name
         self.port = port
+        self.window_index = window_index  # 窗口索引，用于计算位置
         self.browser = None
         self.tab = None
         self.is_active = False
@@ -23,22 +38,27 @@ class ChromeInstanceController:
         """连接到现有Chrome实例"""
         try:
             # 连接到已运行的Chrome实例
-            self.browser = Chromium(f'127.0.0.1:{self.port}')
+            self.browser = Chromium(self.port)
             self.tab = self.browser.latest_tab
+            # 设置窗口大小
+            self.tab.set.window.size(min_width, min_height)
+            # 获取设置后的真实尺寸
+            current_width,_ = self.tab.rect.size
+            x_position = self.window_index * (current_width/scale)
+            print(f"窗口 {self.window_index} 的x位置: {x_position}")
+            # 设置窗口位置
+            self.tab.set.window.location(x_position, 0)
             self.is_active = True
             print(f"成功连接到实例 {self.name} (端口:{self.port})")
             return True
         except Exception as e:
             print(f"连接实例 {self.name} 失败: {e}")
             return False
-
     def disconnect(self):
         """断开连接（不关闭Chrome进程）"""
         try:
             if self.browser:
-                # 只是断开连接，不关闭浏览器
-                self.browser = None
-                self.tab = None
+                self.browser.latest_tab.disconnect()
             self.is_active = False
             print(f"已断开实例 {self.name} 的连接")
         except Exception as e:
@@ -131,18 +151,10 @@ class Sync:
         self.sync_enabled = False    # 是否启用同步
         self.action_history = []     # 操作历史
         self.monitoring_thread = None
-
     def start(self) -> Dict[str, Any]:
-        """启动群控同步服务 - 一键启动完整群控功能"""
         try:
-            print("开始启动群控服务...")
-            print(f"当前Chrome进程列表: {chrome_process}")
-
-            # 获取当前运行的Chrome进程
             if not chrome_process:
                 return {"success": False, "error": "没有运行中的Chrome实例，请先启动Chrome"}
-
-            print(f"找到 {len(chrome_process)} 个Chrome进程")
 
             # 以第一个Chrome进程作为主控实例
             master_process = chrome_process[0]
@@ -154,13 +166,13 @@ class Sync:
             self.master_instance = ChromeInstanceController(
                 name=master_name,
                 port=master_port,
+                window_index=0  # 主控实例在最左边
             )
 
             # 连接到主控实例
-            print(f"正在连接主控实例: {master_name} (端口:{master_port})")
+            print(f"正在连接主控实例: {master_name} ")
             if not self.master_instance.connect():
                 return {"success": False, "error": f"连接主控实例失败: {master_name}"}
-
             # 初始化主控实例的 last_url
             try:
                 self.master_instance.last_url = self.master_instance.tab.url
@@ -171,7 +183,7 @@ class Sync:
 
             # 连接其他实例作为被控实例
             connected_slaves = 0
-            for process in chrome_process[1:]:  # 从第二个开始
+            for index, process in enumerate(chrome_process[1:], start=1):  # 从第二个开始，索引从1开始
                 slave_name = process["name"]
                 slave_port = process.get('debugging_port')
                 print(f"正在连接被控实例: {slave_name} (端口:{slave_port})")
@@ -179,6 +191,7 @@ class Sync:
                 slave_controller = ChromeInstanceController(
                     name=slave_name,
                     port=slave_port,
+                    window_index=index  # 被控实例依次排列在主控右侧
                 )
                 if slave_controller.connect():
                     self.slave_instances[slave_name] = slave_controller
@@ -188,14 +201,10 @@ class Sync:
 
             # 自动启用同步模式
             self.sync_enabled = True
-            print(f"已启用同步模式，连接的被控实例数: {connected_slaves}")
 
             # 设置主控实例的同步回调
             self.master_instance.sync_callback = self._sync_to_slaves
-
-            # 启动监听线程
             self._start_monitoring()
-            print(f"监听线程启动状态: {self.monitoring_thread.is_alive() if self.monitoring_thread else 'None'}")
 
             return {
                 "success": True,
@@ -208,12 +217,10 @@ class Sync:
         except Exception as e:
             return {"success": False, "error": str(e)}
 
-   
     def _start_monitoring(self):
         """启动监听线程"""
         if self.monitoring_thread and self.monitoring_thread.is_alive():
             return
-
         self.monitoring_thread = threading.Thread(target=self._monitor_master, daemon=True)
         self.monitoring_thread.start()
         print("监听线程已启动，开始监听主控实例操作...")
@@ -229,11 +236,10 @@ class Sync:
         if not self.master_instance or not self.master_instance.tab:
             return
 
-        print(f"开始监听主控实例: {self.master_instance.name}")
-
         loop_count = 0
         while self.sync_enabled and self.master_instance and self.master_instance.is_active:
             try:
+                # self.master_instance.tab.
                 loop_count += 1
 
                 # 检查tab是否还有效，如果无效则重新获取
@@ -246,22 +252,6 @@ class Sync:
                         continue
                 except Exception as tab_error:
                     print(f"Tab失效，尝试重新获取: {tab_error}")
-                    try:
-                        self.master_instance.tab = self.master_instance.browser.latest_tab
-                        current_url = self._get_url_with_timeout()
-                        if current_url is None:
-                            print("重新获取Tab后URL仍然超时")
-                            time.sleep(2)
-                            continue
-                        print("Tab重新获取成功")
-                    except Exception as retry_error:
-                        print(f"Tab重新获取失败: {retry_error}")
-                        time.sleep(2)
-                        continue
-
-                # 每10秒输出一次监听状态
-                if loop_count % 10 == 1:
-                    print(f"监听中... (第{loop_count}次) 当前URL: {current_url}")
 
                 # 检查URL变化（导航操作）
                 if current_url != self.master_instance.last_url:
@@ -280,7 +270,7 @@ class Sync:
                 print(f"错误详情: {str(e)}")
                 time.sleep(2)  # 出错时延长等待
 
-        print("监听线程已停止")
+        # print("监听线程已停止")
 
     def _get_url_with_timeout(self, timeout=3):
         """带超时的URL获取，避免页面加载卡住"""
@@ -385,38 +375,21 @@ class Sync:
 
         return sync_results
 
-    def master_execute(self, action: str, **kwargs) -> Dict[str, Any]:
-        """在主控实例执行操作并同步到被控实例"""
-        if not self.master_instance or not self.master_instance.is_active:
-            return {"success": False, "error": "主控实例未连接"}
-
-        try:
-            # 在主控实例执行操作
-            master_result = self.master_instance.execute_action(action, **kwargs)
-
-            if master_result["success"]:
-                # 自动同步到被控实例
-                sync_results = self._sync_to_slaves(action, **kwargs)
-
-                return {
-                    "success": True,
-                    "master_result": master_result,
-                    "sync_results": sync_results,
-                    "message": f"主控操作成功，已同步到 {len(self.slave_instances)} 个实例"
-                }
-            else:
-                return {
-                    "success": False,
-                    "error": f"主控操作失败: {master_result.get('error', '未知错误')}"
-                }
-
-        except Exception as e:
-            return {"success": False, "error": f"执行操作失败: {str(e)}"}
-
     def shutdown(self):
         """关闭同步服务"""
         try:
-            # 停止监听
+            # 停止同步
+            self.sync_enabled = False
+
+            # 停止CDP监听
+            if self.master_instance and self.master_instance.tab:
+                try:
+                    self.master_instance.tab.listen.stop('Page.frameNavigated')
+                    print("已停止CDP事件监听")
+                except Exception:
+                    pass
+
+            # 停止轮询监听线程
             self._stop_monitoring()
 
             # 断开所有连接
@@ -434,14 +407,4 @@ class Sync:
 
         except Exception as e:
             return {"success": False, "error": f"关闭服务失败: {str(e)}"}
-
-    def get_status(self) -> Dict[str, Any]:
-        """获取同步服务状态"""
-        return {
-            "sync_enabled": self.sync_enabled,
-            "master_instance": self.master_instance.name if self.master_instance else None,
-            "slave_count": len(self.slave_instances),
-            "slave_instances": list(self.slave_instances.keys()),
-            "total_operations": len(self.action_history)
-        }
 
