@@ -87,6 +87,7 @@ export default function Chrome() {
     // 检查进程是否存在
     const checkProcess = async () => {
         const res = await window.py.app.get_open();
+        console.log('process', res)
         const { chrome, telegram } = res;
         data.map((item: any) => {
             if (chrome.find(it => it.name === item.name)) {

@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(./venv/Scripts/python.exe -c \"\nfrom src_py.lib.sync import Sync\nfrom src_py.lib.app import chrome_process\n\nprint(''Chrome进程列表:'', chrome_process)\ns = Sync()\nresult = s.start()\nprint(''启动结果:'', result)\n\")"
+      "Bash(dir src_py)",
+      "Bash(python:*)",
+      "Read(//d/**)"
     ],
     "deny": [],
     "ask": []

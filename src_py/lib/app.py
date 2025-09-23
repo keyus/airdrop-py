@@ -64,6 +64,10 @@ class App:
                     f"--user-data-dir={os.path.join(chrome_user_data_dir, name)}",
                     f"--remote-debugging-port={debugging_port}",
                     "--remote-allow-origins=*",
+                    "--no-first-run",
+                    "--disable-default-apps",
+                    "--disable-background-timer-throttling",
+                    "--disable-backgrounding-occluded-windows",
                     *proxy,
                     *url,
                 ]
@@ -135,18 +139,16 @@ class App:
         telegram_process.clear()
 
     def get_open(self):
-        pids = psutil.pids()
-        for item in chrome_process:
-            if not item["pid"] in pids:
-                chrome_process.remove(item)
+        for process in chrome_process:
+            if not psutil.pid_exists(process["pid"]):
+                chrome_process.remove(process)
+        for process in telegram_process:
+            if not psutil.pid_exists(process["pid"]):
+                telegram_process.remove(process)
 
-        for item in telegram_process:
-            if not item["pid"] in pids:
-                telegram_process.remove(item)
         return {
             "chrome": chrome_process,
             "telegram": telegram_process,
         }
-
 
   

@@ -1,0 +1,5 @@
+# Chrome同步功能依赖
+pywin32>=306
+keyboard>=0.13.5
+mouse>=0.7.1
+requests>=2.31.0
