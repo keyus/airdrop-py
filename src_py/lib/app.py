@@ -1,9 +1,8 @@
-import subprocess
-import psutil
 import shutil
 import sys
 import os
 import time
+import pywinauto
 from .path import user_data_path
 from .config import Config
 from .window_manager import WindowManager
@@ -54,7 +53,6 @@ class App:
                 proxy_list = proxy_list.get('data')
             name_index = wallet.index(name)
             proxy = proxy_list[name_index]
-            debugging_port = 9222 + name_index
             if proxy:
                 proxy = [f"--proxy-server=socks5://{proxy}"]
             if not use_url:
@@ -64,22 +62,14 @@ class App:
 
             user_data_path = os.path.join(chrome_user_data_dir, name)
 
-            process = subprocess.Popen(
-                [
-                    chrome_path,
-                    f"--user-data-dir={user_data_path}",
-                    # f"--remote-debugging-port={debugging_port}",
-                    # "--remote-allow-origins=*",
-                    *proxy,
-                    *url,
-                ],
-            )
-
+            app = pywinauto.Application()
+            cmd_args = [f"--user-data-dir={user_data_path}", *proxy, *url]
+            cmd_line = f"{chrome_path} {' '.join(cmd_args)}"
+            app.start(cmd_line=cmd_line)
             chrome_process.append(
                 {
+                    "app": app,
                     "name": name,
-                    "pid": process.pid,
-                    "debugging_port": debugging_port,
                 }
             )
             time.sleep(0.2)
@@ -93,68 +83,59 @@ class App:
         telegram_install_dir = config.get("telegram_install_dir","")
         for name in names:
             item_path = os.path.join(telegram_install_dir, name, "Telegram.exe")
-            process = subprocess.Popen([item_path])
+            app = pywinauto.Application()
+            app.start(item_path)
             telegram_process.append(
                 {
+                    "app": app,
                     "name": name,
-                    "pid": process.pid,
                 }
             )
         return True
 
     def close_chrome(self, names: list[str]):
         for name in names:
-            process = next((item for item in chrome_process if item['name'] == name), None)
-            print("需要关闭的chrome进程", process["pid"])
-            proc = psutil.Process(process["pid"])
-            proc.kill()
-            chrome_process.remove(process)
+            item = next((item for item in chrome_process if item['name'] == name), None)
+            app = item.get('app')
+            app.kill()
+            chrome_process.remove(item)
         return True
 
     def close_telegram(self, names: list[str]):
         for name in names:
             item = next((item for item in telegram_process if item['name'] == name), None)
-            print("需要关闭的telegram进程", item["pid"])
-            proc = psutil.Process(item["pid"])
-            proc.kill()
+            app = item.get('app')
+            app.kill()
             telegram_process.remove(item)
         return True
     
     def close_chrome_all(self):
         for item in chrome_process:
-            pid = item.get('pid')
-            try:
-                proc = psutil.Process(pid)
-                proc.kill()
-            except psutil.NoSuchProcess:
-                print(f"进程 {pid} 已不存在")
+            app = item.get('app')
+            app.kill()
         chrome_process.clear()
         
     def close_telegram_all(self):
         for item in telegram_process:
-            pid = item.get('pid')
-            try:
-                proc = psutil.Process(pid)
-                proc.kill()
-            except psutil.NoSuchProcess:
-                print(f"进程 {pid} 已不存在")
-            except psutil.AccessDenied:
-                print(f"没有权限关闭进程 {pid}")
+            app = item.get('app')
+            app.kill()
         telegram_process.clear()
 
     
     def get_open(self):
-        for process in chrome_process:
-            if not psutil.pid_exists(process["pid"]):
-                chrome_process.remove(process)
+        for item in chrome_process:
+            chrome_app = item.get('app')
+            if not chrome_app.is_process_running():
+                chrome_process.remove(item)
+        
+        for item in telegram_process:
+            telegram_app = item.get('app')
+            if not telegram_app.is_process_running():
+                telegram_process.remove(item)
             
-        for process in telegram_process:
-            if not psutil.pid_exists(process["pid"]):
-                telegram_process.remove(process)
-
         return {
-            "chrome": chrome_process,
-            "telegram": telegram_process,
+            "chrome": [item.get('name') for item in chrome_process],
+            "telegram": [item.get('name') for item in telegram_process],
         }
 
    

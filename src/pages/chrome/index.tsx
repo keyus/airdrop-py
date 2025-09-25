@@ -90,12 +90,12 @@ export default function Chrome() {
         console.log('process', res)
         const { chrome, telegram } = res;
         data.map((item: any) => {
-            if (chrome.find(it => it.name === item.name)) {
+            if (chrome.includes(item.name)) {
                 item.openChrome = true
             } else {
                 item.openChrome = false
             }
-            if (telegram.find(it => it.name === item.name)) {
+            if (telegram.includes(item.name)) {
                 item.openTg = true
             } else {
                 item.openTg = false
