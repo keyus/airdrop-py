@@ -3,13 +3,14 @@ import psutil
 import shutil
 import sys
 import os
+import time
 from .path import user_data_path
 from .config import Config
+from .window_manager import WindowManager
 
 config_handle = Config()
 chrome_process = []
 telegram_process = []
-
 
 # 程序目录
 def app_path():
@@ -20,6 +21,8 @@ def app_path():
     return base_path
 
 class App:
+    def __init__(self):
+        self.window = WindowManager()
     def init(self):
         app_config_path = os.path.join(app_path(),"config")
         if not os.path.exists(user_data_path):
@@ -44,7 +47,7 @@ class App:
         chrome_user_data_dir = config.get("chrome_user_data_dir", "")
         wallet = config.get("wallet",[])
         chrome_path = os.path.join(chrome_install_dir, "chrome.exe")
-        
+
         for name in names:
             proxy_list = config_handle.get_proxy()
             if proxy_list.get('status'):
@@ -58,20 +61,20 @@ class App:
                 url = []
             if not use_proxy:
                 proxy = []
+
+            user_data_path = os.path.join(chrome_user_data_dir, name)
+
             process = subprocess.Popen(
                 [
-                    chrome_path, 
-                    f"--user-data-dir={os.path.join(chrome_user_data_dir, name)}",
-                    f"--remote-debugging-port={debugging_port}",
-                    "--remote-allow-origins=*",
-                    "--no-first-run",
-                    "--disable-default-apps",
-                    "--disable-background-timer-throttling",
-                    "--disable-backgrounding-occluded-windows",
+                    chrome_path,
+                    f"--user-data-dir={user_data_path}",
+                    # f"--remote-debugging-port={debugging_port}",
+                    # "--remote-allow-origins=*",
                     *proxy,
                     *url,
-                ]
+                ],
             )
+
             chrome_process.append(
                 {
                     "name": name,
@@ -79,6 +82,7 @@ class App:
                     "debugging_port": debugging_port,
                 }
             )
+            time.sleep(0.2)
         return True
 
     # 打开telegram
@@ -138,10 +142,12 @@ class App:
                 print(f"没有权限关闭进程 {pid}")
         telegram_process.clear()
 
+    
     def get_open(self):
         for process in chrome_process:
             if not psutil.pid_exists(process["pid"]):
                 chrome_process.remove(process)
+            
         for process in telegram_process:
             if not psutil.pid_exists(process["pid"]):
                 telegram_process.remove(process)
@@ -151,4 +157,4 @@ class App:
             "telegram": telegram_process,
         }
 
-  
+   

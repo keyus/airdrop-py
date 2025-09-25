@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "rsbuild dev",
-    "build:frontend": "rsbuild build",
     "dev:backend": "./venv/Scripts/python.exe ./src_py/main.py",
-    "install_py": "./venv/Scripts/pip install -r requirements.txt",
-    "build:windows": "bun run build:frontend && ./venv/Scripts/pyinstaller build-windows.spec --clean --distpath release"
+    "build:frontend": "rsbuild build",
+    "build:windows": "bun run build:frontend && ./venv/Scripts/pyinstaller build-windows.spec --clean --distpath release",
+    "install_py": "./venv/Scripts/pip install -r requirements.txt"
  },
   "dependencies": {
     "@ant-design/icons": "^6.0.2",
