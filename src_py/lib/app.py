@@ -5,7 +5,6 @@ import time
 import pywinauto
 from .path import user_data_path
 from .config import Config
-from .window_manager import WindowManager
 
 config_handle = Config()
 chrome_process = []
@@ -20,8 +19,7 @@ def app_path():
     return base_path
 
 class App:
-    def __init__(self):
-        self.window = WindowManager()
+    
     def init(self):
         app_config_path = os.path.join(app_path(),"config")
         if not os.path.exists(user_data_path):

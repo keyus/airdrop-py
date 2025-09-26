@@ -3,7 +3,8 @@
     "allow": [
       "Bash(dir src_py)",
       "Bash(python:*)",
-      "Read(//d/**)"
+      "Read(//d/**)",
+      "WebFetch(domain:pywinauto.readthedocs.io)"
     ],
     "deny": [],
     "ask": []
