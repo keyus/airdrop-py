@@ -68,6 +68,7 @@ declare global {
             sync_enabled?: boolean
             error?: string
           }>
+          stop: ()=>Promise<void>
         }
       }
     }

@@ -33,7 +33,7 @@ try:
     hook = Hook()
     hook.handler = event_handler
     hook.hook(keyboard=True, mouse=True)
-    hook.listen(event_handler)
+    hook.listen()
 except KeyboardInterrupt:
     hook.stop()
     print("钩子已停止")

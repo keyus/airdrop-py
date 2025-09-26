@@ -89,6 +89,9 @@ export default function Chrome() {
         const res = await window.py.app.get_open();
         console.log('process', res)
         const { chrome, telegram } = res;
+        if(chrome.length < 2){
+            window.py.sync.stop()
+        }
         data.map((item: any) => {
             if (chrome.includes(item.name)) {
                 item.openChrome = true

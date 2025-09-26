@@ -130,7 +130,7 @@ class App:
             telegram_app = item.get('app')
             if not telegram_app.is_process_running():
                 telegram_process.remove(item)
-            
+        
         return {
             "chrome": [item.get('name') for item in chrome_process],
             "telegram": [item.get('name') for item in telegram_process],

@@ -12,7 +12,4 @@ class Api:
         self.webshare = Webshare()
         self.sync = Sync()
 
-    # Chrome群控API - 极简接口
-    def sync_start(self):
-        """一键启动Chrome群控服务 - 自动将chrome_process[0]设为主控，其他为被控"""
-        return self.sync.start()
+ 

@@ -34,8 +34,9 @@ export default function Tools(props: Props) {
         onOk()
     }
     const onCloseChrome = async () => {
+        window.py.sync.stop()
         await window.py.app.close_chrome_all();
-        window.message.success('chrome,关闭成功')
+        window.message.success('chrome,关闭成功,同步已关闭')
         onOk()
     }
 
