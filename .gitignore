@@ -4,5 +4,4 @@ dist
 build
 __pycache__
 release
-.env
 bun.lock
