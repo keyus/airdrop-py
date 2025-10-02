@@ -1,0 +1,151 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: #f9f9f9;
+
+  * {
+    box-sizing: inherit;
+  }
+}
+[data-disabled]{
+  color: #999;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.flex-center{
+  display: flex;
+  align-items: center;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.root-app{
+  width: 100%;
+  display: flex;
+  height: 100%;
+}
+#root {
+  height: 100%;
+  border-top: 1px solid #e1e1e1;
+
+  .side {
+    width: 240px;
+    background-color: #fff;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+
+
+    h1 {
+      color: #000;
+      font-size: 30px;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 20px 15px 0;
+      font-weight: bolder;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 30px;
+      svg{
+        width: 40px;
+        height: 40px;
+      }
+    }
+    .space-line{
+      border-bottom: 1px solid #e9e9ec;
+      height: 1px;
+      font-size: 0;
+      margin: 10px 0;
+    }
+    ul {
+      &:last-of-type{
+        border-bottom: none;
+      }
+      li {
+        padding: 0 18px;
+      }
+    }
+
+    a {
+      display: flex;
+      padding: 12px 20px;
+      color: #333;
+      align-items: center;
+      gap: 8px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+
+      svg{
+        width: 16px;
+        height: 16px;
+      }
+      &:hover {
+        color: #2b4cf5;
+      }
+
+      &.active {
+        background-color: #d4dbfc;
+        color: #2b4cf5;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .main {
+    flex: 1;
+    min-width: 1%;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    .main-header{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      h2{
+        margin-bottom: 0;
+        font-size: 24px;
+      }
+    }
+    .main-body{
+      flex: 1;
+      min-height: 1%;
+      overflow-y: auto;
+      padding-top: 10px;
+      &::-webkit-scrollbar{
+        display: none;
+      }
+      h1{
+        font-size: 22px;
+        font-weight: bolder;
+        padding-bottom: 30px;
+        span{
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}
+

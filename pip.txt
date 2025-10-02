@@ -1,0 +1,19 @@
+
+清除缓存
+pip cache purge
+
+强制重新安装
+pip install --force-reinstall -r requirements.txt
+
+显示所有安装包
+pip list  
+
+移除一个包
+pip uninstall xxx
+
+将所有已安装的库及其版本信息保存到 requirements.txt 文件中。
+pip freeze > requirements.txt
+
+移除文件中的所有包  -y  无需确认
+pip uninstall -r requirements.txt -y
+

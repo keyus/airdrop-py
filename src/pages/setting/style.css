@@ -1,0 +1,8 @@
+.setting{
+    padding: 16px;
+    .setting-form{
+        background-color: #fff;
+        padding: 16px;
+        border-radius: 8px;
+    }
+}

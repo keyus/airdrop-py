@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir src_py)",
+      "Bash(python:*)",
+      "Read(//d/**)",
+      "WebFetch(domain:pywinauto.readthedocs.io)",
+      "Bash(where procmon)",
+      "Bash(powershell:*)",
+      "Read(//c/Users/kissw/Pictures/Screenshots/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,457 @@
+[
+  {
+    "nordVpn": "New Zealand",
+    "protonVpn": "TW#15",
+    "name": "eth-C871"
+  },
+  {
+    "nordVpn": "Brisbane",
+    "protonVpn": "SG#76",
+    "name": "eth-bCb9"
+  },
+  {
+    "nordVpn": "Denmark",
+    "protonVpn": "HK#28",
+    "name": "eth-14AD"
+  },
+  {
+    "nordVpn": "Finland",
+    "protonVpn": "JP#60",
+    "name": "eth-9f02"
+  },
+  {
+    "nordVpn": "Taiwan",
+    "protonVpn": "TW#14",
+    "name": "eth-f9e7"
+  },
+  {
+    "nordVpn": "Singapore",
+    "protonVpn": "JP#203",
+    "name": "eth-8257"
+  },
+  {
+    "nordVpn": "Poland",
+    "protonVpn": "JP#220",
+    "name": "eth-7084"
+  },
+  {
+    "nordVpn": "Argentina",
+    "protonVpn": "HK#29",
+    "name": "eth-702f"
+  },
+  {
+    "nordVpn": "Thailand",
+    "protonVpn": "KR#15",
+    "name": "eth-891b"
+  },
+  {
+    "nordVpn": "Singapore",
+    "protonVpn": "TH#3",
+    "name": "eth-a48e"
+  },
+  {
+    "nordVpn": "New Zealand",
+    "protonVpn": "TW#17",
+    "name": "eth-f0C8"
+  },
+  {
+    "nordVpn": "Tokyo",
+    "protonVpn": "VN#3",
+    "name": "eth-E696"
+  },
+  {
+    "nordVpn": "Madrid",
+    "protonVpn": "JP#69",
+    "name": "eth-cCDC"
+  },
+  {
+    "nordVpn": "Adelaide",
+    "protonVpn": "TH#5",
+    "name": "eth-B9C6"
+  },
+  {
+    "nordVpn": "Perth",
+    "protonVpn": "HK#68",
+    "name": "eth-1f0A"
+  },
+  {
+    "nordVpn": "Singapore",
+    "protonVpn": "KR#19",
+    "name": "eth-8dC7"
+  },
+  {
+    "nordVpn": "Tokyo",
+    "protonVpn": "JP#165",
+    "name": "eth-4d64"
+  },
+  {
+    "nordVpn": "Singapore",
+    "protonVpn": "SG#85",
+    "name": "eth-32BE"
+  },
+  {
+    "nordVpn": "Berlin",
+    "protonVpn": "TH#8",
+    "name": "eth-FAf4"
+  },
+  {
+    "nordVpn": "Japan",
+    "protonVpn": "HK#28",
+    "name": "eth-76DA"
+  },
+  {
+    "nordVpn": "Taiwan",
+    "protonVpn": "KR#17",
+    "name": "eth-Ef65"
+  },
+  {
+    "nordVpn": "New Zealand",
+    "protonVpn": "JP#173",
+    "name": "eth-451d"
+  },
+  {
+    "nordVpn": "Hong Kong",
+    "protonVpn": "TW#20",
+    "name": "eth-5fF4"
+  },
+  {
+    "nordVpn": "Osaka",
+    "protonVpn": "KR#20",
+    "name": "eth-5D48"
+  },
+  {
+    "nordVpn": "Sydney",
+    "protonVpn": "HK#35",
+    "name": "eth-3573"
+  },
+  {
+    "nordVpn": "Melbourne",
+    "protonVpn": "AE#14",
+    "name": "eth-F994"
+  },
+  {
+    "nordVpn": "Hong Kong",
+    "protonVpn": "JP#160",
+    "name": "eth-661A"
+  },
+  {
+    "nordVpn": "Taiwan",
+    "protonVpn": "SG#77",
+    "name": "eth-942b"
+  },
+  {
+    "nordVpn": "Taiwan",
+    "protonVpn": "MY#34",
+    "name": "eth-1eD0"
+  },
+  {
+    "nordVpn": "Thailand",
+    "protonVpn": "JP#157",
+    "name": "eth-9955"
+  },
+  {
+    "nordVpn": "South Korea",
+    "protonVpn": "HK#38",
+    "name": "eth-0dd3"
+  },
+  {
+    "nordVpn": "Thailand",
+    "protonVpn": "AE#16",
+    "name": "eth-dcBe"
+  },
+  {
+    "nordVpn": "Indonesia",
+    "protonVpn": "JP#169",
+    "name": "eth-a1Eb"
+  },
+  {
+    "nordVpn": "Hong Kong",
+    "protonVpn": "HK#50",
+    "name": "eth-1556"
+  },
+  {
+    "nordVpn": "Cyprus",
+    "protonVpn": "AE#10",
+    "name": "eth-6dFb"
+  },
+  {
+    "nordVpn": "Romania",
+    "protonVpn": "MY#31",
+    "name": "eth-7663"
+  },
+  {
+    "nordVpn": "Colombia",
+    "protonVpn": "TW#15",
+    "name": "eth-87Eb"
+  },
+  {
+    "nordVpn": "Poland",
+    "protonVpn": "JP#172",
+    "name": "eth-21D7"
+  },
+  {
+    "nordVpn": "Singapore",
+    "protonVpn": "JP#204",
+    "name": "eth-CAA9"
+  },
+  {
+    "nordVpn": "Osaka",
+    "protonVpn": "MY#32",
+    "name": "eth-438b"
+  },
+  {
+    "nordVpn": "Berlin",
+    "protonVpn": "AE#15",
+    "name": "eth-e4F0"
+  },
+  {
+    "nordVpn": "Frankfurt",
+    "protonVpn": "HK#37",
+    "name": "eth-AeF5"
+  },
+  {
+    "nordVpn": "Tokyo",
+    "protonVpn": "AE#26",
+    "name": "eth-4706"
+  },
+  {
+    "nordVpn": "Hong Kong",
+    "protonVpn": "SG#72",
+    "name": "eth-2bc2"
+  },
+  {
+    "nordVpn": "Switzerland",
+    "protonVpn": "MY#17",
+    "name": "eth-49Fb"
+  },
+  {
+    "nordVpn": "Hong Kong",
+    "protonVpn": "HK#40",
+    "name": "eth-1fBb"
+  },
+  {
+    "nordVpn": "perth",
+    "protonVpn": "JP#207",
+    "name": "eth-68De"
+  },
+  {
+    "nordVpn": "melbourne",
+    "protonVpn": "TW#24",
+    "name": "eth-91a7"
+  },
+  {
+    "nordVpn": "brisbane",
+    "protonVpn": "AE#28",
+    "name": "eth-D029"
+  },
+  {
+    "nordVpn": "Singapore",
+    "protonVpn": "JP#163",
+    "name": "eth-Ca9F"
+  },
+  {
+    "nordVpn": "osaka",
+    "protonVpn": "HK#30",
+    "name": "eth-C32E"
+  },
+  {
+    "nordVpn": "Hong Kong",
+    "protonVpn": "AE#22",
+    "name": "eth-58e0"
+  },
+  {
+    "nordVpn": "Singapore",
+    "protonVpn": "JP#152",
+    "name": "eth-ADdb"
+  },
+  {
+    "nordVpn": "Singapore",
+    "protonVpn": "SG#84",
+    "name": "eth-4b75"
+  },
+  {
+    "nordVpn": "tokyo",
+    "protonVpn": "AE#23",
+    "name": "eth-edC5"
+  },
+  {
+    "nordVpn": "Hong Kong",
+    "protonVpn": "HK#45",
+    "name": "eth-83A8"
+  },
+  {
+    "nordVpn": "Thailand",
+    "protonVpn": "JP#154",
+    "name": "eth-639b"
+  },
+  {
+    "nordVpn": "tokyo",
+    "protonVpn": "HK#67",
+    "name": "eth-0BF5"
+  },
+  {
+    "nordVpn": "South Korea",
+    "protonVpn": "SG#79",
+    "name": "eth-D196"
+  },
+  {
+    "nordVpn": "Malaysia",
+    "protonVpn": "JP#159",
+    "name": "eth-de62"
+  },
+  {
+    "nordVpn": "Indonesia",
+    "protonVpn": "TW#21",
+    "name": "eth-b561"
+  },
+  {
+    "nordVpn": "osaka",
+    "protonVpn": "JP#155",
+    "name": "eth-F383"
+  },
+  {
+    "nordVpn": "tokyo",
+    "protonVpn": "SG#70",
+    "name": "eth-eFbC"
+  },
+  {
+    "nordVpn": "Singapore",
+    "protonVpn": "TW#27",
+    "name": "eth-A2BE"
+  },
+  {
+    "nordVpn": "Taiwan",
+    "protonVpn": "HK#34",
+    "name": "eth-C84c"
+  },
+  {
+    "nordVpn": "Thailand",
+    "protonVpn": "MY#18",
+    "name": "eth-7225"
+  },
+  {
+    "nordVpn": "Berlin",
+    "protonVpn": "JP#161",
+    "name": "eth-4233"
+  },
+  {
+    "nordVpn": "Frankfurt",
+    "protonVpn": "SG#74",
+    "name": "eth-Ff96"
+  },
+  {
+    "nordVpn": "Israel",
+    "protonVpn": "JP#170",
+    "name": "eth-203A"
+  },
+  {
+    "nordVpn": "Cyprus",
+    "protonVpn": "JP#172",
+    "name": "eth-7550"
+  },
+  {
+    "nordVpn": "Colombia",
+    "protonVpn": "TW#28",
+    "name": "eth-4012"
+  },
+  {
+    "nordVpn": "Berlin",
+    "protonVpn": "KR#16",
+    "name": "eth-3bbF"
+  },
+  {
+    "nordVpn": "Frankfurt",
+    "protonVpn": "SG#78",
+    "name": "eth-3eCE"
+  },
+  {
+    "nordVpn": "Switzerland",
+    "protonVpn": "JP#62",
+    "name": "eth-cF1b"
+  },
+  {
+    "nordVpn": "Argentina",
+    "protonVpn": "HK#44",
+    "name": "eth-bb3F"
+  },
+  {
+    "nordVpn": "Brazil",
+    "protonVpn": "VN#6",
+    "name": "eth-0d15"
+  },
+  {
+    "nordVpn": "Finland",
+    "protonVpn": "SG#94",
+    "name": "eth-a178"
+  },
+  {
+    "nordVpn": "Denmark",
+    "protonVpn": "VN#5",
+    "name": "eth-b0d4"
+  },
+  {
+    "nordVpn": "Adelaide",
+    "protonVpn": "TW#22",
+    "name": "eth-f549"
+  },
+  {
+    "nordVpn": "Taiwan",
+    "protonVpn": "TH#4",
+    "name": "eth-827c"
+  },
+  {
+    "nordVpn": "Taiwan",
+    "protonVpn": "SG#75",
+    "name": "eth-c3B8"
+  },
+  {
+    "nordVpn": "Sydney",
+    "protonVpn": "JP#59",
+    "name": "eth-8cf7"
+  },
+  {
+    "nordVpn": "Barcelona",
+    "protonVpn": "HK#31",
+    "name": "eth-B6eC"
+  },
+  {
+    "nordVpn": "Berlin",
+    "protonVpn": "VN#7",
+    "name": "eth-9D68"
+  },
+  {
+    "nordVpn": "Frankfurt",
+    "protonVpn": "JP#72",
+    "name": "eth-1d70"
+  },
+  {
+    "nordVpn": "Madrid",
+    "protonVpn": "SG#69",
+    "name": "eth-29F5"
+  },
+  {
+    "nordVpn": "Romania",
+    "protonVpn": "TW#23",
+    "name": "eth-3319"
+  },
+  {
+    "nordVpn": "Poland",
+    "protonVpn": "HK#43",
+    "name": "eth-882B"
+  },
+  {
+    "nordVpn": "New Zealand",
+    "protonVpn": "VN#4",
+    "name": "eth-c3B5"
+  },
+  {
+    "nordVpn": "Brisbane",
+    "protonVpn": "SG#90",
+    "name": "eth-441A"
+  },
+  {
+    "nordVpn": "Thailand",
+    "protonVpn": "MY#9",
+    "name": "eth-210D"
+  }
+]
